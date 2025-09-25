@@ -1,0 +1,48 @@
+:root{ --card-radius: 1rem; }
+html, body { background:#f8f9fa; }
+
+/* Cards y contenedores redondeados */
+.card, .offcanvas, .modal-content { border-radius: var(--card-radius); }
+.product-card img, .card img { object-fit:cover; height:180px; }
+
+/* Chips y etiquetas pequeñas */
+.small-chip {
+  border:1px solid rgba(0,0,0,.15);
+  padding:.15rem .4rem;
+  border-radius:.45rem;
+  font-size:.75rem;
+  background:#fff;
+}
+#activeFilters .small-chip { background:#f1f3f5; }
+
+/* Carrito en rectángulos (más ordenado) */
+.cart-item {
+  display:flex; gap:.75rem; align-items:flex-start;
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:12px;
+  background:#fff;
+  padding:.75rem;
+  box-shadow:0 2px 4px rgba(0,0,0,.04);
+}
+.cart-item + .cart-item { margin-top:.75rem; }
+.cart-thumb { width:64px; height:64px; object-fit:cover; border-radius:8px; }
+
+/* Avatar auth */
+.auth-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; }
+
+/* Dropdowns / tablas */
+.dropdown-menu { border-radius: .75rem; }
+.table td, .table th { vertical-align: middle; }
+
+/* Badges de estado de pedidos */
+.badge-pendiente   { background:#ffe08a; color:#5a4700; }
+.badge-preparacion { background:#b3e5fc; color:#053a5f; }
+.badge-enviado     { background:#c8e6c9; color:#1b5e20; }
+.badge-entregado   { background:#d1c4e9; color:#311b92; }
+.badge-cancelado   { background:#ffcdd2; color:#b71c1c; }
+
+/* Celdas largas (pedidos) */
+.td-truncate { max-width: 280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* Checkout */
+.checkout-note { font-size:.9rem; color:#6c757d; }

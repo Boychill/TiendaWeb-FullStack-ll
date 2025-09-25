@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clan Supply · Evaluación Parcial N°1</title>
+
+  <!-- ÚNICO CSS en /pages -->
+  <link rel="stylesheet" href="./estilo.css">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+  <header class="bg-white border-bottom sticky-top">
+    <nav class="navbar navbar-expand-lg container" aria-label="Barra de navegación principal">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#home"><i class="bi bi-bag-check"></i> Clan Supply</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home"><i class="bi bi-house-door"></i> Home</a></li>
+          <!-- Dropdown categorías con subcategorías -->
+          <li class="nav-item dropdown d-none d-lg-block">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-grid"></i> Categorías</a>
+            <div class="dropdown-menu p-2" style="min-width:260px" id="dropdownCategorias"></div>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#catalogo">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#ofertas">Ofertas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#video">Video</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://www.w3.org/TR/html52/semantics.html" target="_blank" rel="noopener">HTML5 Semántica</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          <!-- Carrito -->
+          <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito">
+            <i class="bi bi-cart3"></i> <span class="d-none d-sm-inline">Carrito</span>
+            <span id="cartCount" class="badge text-bg-light ms-1">0</span>
+          </button>
+          <!-- Área auth -->
+          <div id="authArea"></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home" class="container my-4">
+    <div class="row g-3">
+      <!-- Sidebar categorías -->
+      <aside class="col-lg-3 d-none d-lg-block">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-grid"></i> Categorías</span>
+            <button class="btn btn-sm btn-outline-secondary" id="clearFiltersBtn">Limpiar</button>
+          </div>
+          <div class="list-group list-group-flush" id="sidebarCategorias"></div>
+        </div>
+      </aside>
+
+      <!-- Catálogo -->
+      <section class="col-lg-9" id="catalogo">
+        <!-- Buscador encima para dejar espacio al perfil -->
+        <div class="row g-2 align-items-center mb-2">
+          <div class="col">
+            <form class="d-flex" onsubmit="event.preventDefault();" role="search" aria-label="Buscar productos">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input id="searchInput" class="form-control" type="search" placeholder="Buscar productos..." autocomplete="on">
+              </div>
+            </form>
+          </div>
+          <div class="col-auto d-lg-none">
+            <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias">
+              <i class="bi bi-grid"></i> Categorías
+            </button>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between mb-2 gap-2">
+          <h1 class="h4 m-0">Productos <small class="text-muted" id="resultCount"></small></h1>
+          <div class="d-flex align-items-center gap-2">
+            <div id="activeFilters" class="d-none"></div>
+            <div>
+              <label class="me-2 small text-muted">Ordenar:</label>
+              <select id="sortSelect" class="form-select form-select-sm d-inline-block" style="width: 200px;">
+                <option value="relevancia">Relevancia</option>
+                <option value="precio-asc">Precio: menor a mayor</option>
+                <option value="precio-desc">Precio: mayor a menor</option>
+                <option value="nombre-asc">Nombre: A–Z</option>
+                <option value="nombre-desc">Nombre: Z–A</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="emptyState" class="alert alert-warning d-none" role="status">No hay resultados. Cambia búsqueda o filtros.</div>
+        <div id="productGrid" class="row g-3"></div>
+      </section>
+    </div>
+
+    <!-- Ofertas -->
+    <section id="ofertas" class="my-5">
+      <h2 class="h4">Ofertas destacadas</h2>
+      <p class="text-muted">Explora promociones y descuentos limitados.</p>
+      <div class="row g-3" id="ofertasGrid"></div>
+    </section>
+
+    <!-- Video -->
+    <section id="video" class="my-5">
+      <h2 class="h4">Conoce nuestra tienda</h2>
+      <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
+        <iframe src="https://www.youtube.com/embed/pwbzSueoxQE" title="Video de presentación" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="my-5">
+      <h2 class="h4">Contacto</h2>
+      <form id="contactForm" novalidate class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Nombre</label>
+          <input id="cNombre" type="text" class="form-control" required minlength="2" autocomplete="name">
+          <div class="invalid-feedback">Ingresa un nombre válido.</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input id="cEmail" type="email" class="form-control" required autocomplete="email">
+          <div class="invalid-feedback">Ingresa un email válido.</div>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Mensaje</label>
+          <textarea id="cMensaje" class="form-control" rows="4" required minlength="10"></textarea>
+          <div class="invalid-feedback">El mensaje debe tener al menos 10 caracteres.</div>
+        </div>
+        <div class="col-12 d-flex gap-2">
+          <button class="btn btn-success" type="submit"><i class="bi bi-send"></i> Enviar</button>
+          <button class="btn btn-outline-secondary" type="reset"><i class="bi bi-eraser"></i> Limpiar</button>
+        </div>
+      </form>
+      <div id="contactResult" class="alert mt-3 d-none"></div>
+    </section>
+  </main>
+
+  <footer class="border-top py-4 bg-white">
+    <div class="container d-flex flex-column flex-lg-row justify-content-between">
+      <div>© <span id="year"></span> MiTienda — Demo.</div>
+      <div class="text-muted small">HTML5 · Bootstrap · JS</div>
+    </div>
+  </footer>
+
+  <!-- Offcanvas Categorías (móvil) -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCategorias">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"><i class="bi bi-grid"></i> Categorías</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <div class="list-group list-group-flush" id="offcanvasCategoriasList"></div>
+    </div>
+  </div>
+
+  <!-- Offcanvas Carrito -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"><i class="bi bi-cart3"></i> Tu carrito</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column">
+      <ul id="cartList" class="list-group list-group-flush mb-3"></ul>
+      <div class="mt-auto">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <strong>Total</strong>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-danger" id="clearCartBtn"><i class="bi bi-trash3"></i> Vaciar carrito</button>
+          <button class="btn btn-success" id="checkoutBtn"><i class="bi bi-credit-card"></i> Finalizar compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Login -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="loginForm">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control mb-3" id="loginEmail" required>
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="loginPass" required minlength="6">
+          <div class="form-text">Demo local: no se envían datos a ningún servidor.</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-primary" type="submit">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Registro -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="registerForm">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-plus"></i> Registrarse</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-control mb-3" id="regName" required>
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control mb-3" id="regEmail" required>
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="regPass" required minlength="6">
+          <div class="form-text">Demo local: usuarios guardados en tu navegador.</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success" type="submit">Crear cuenta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Checkout (envío) -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" id="checkoutForm">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-truck"></i> Datos de envío</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body row g-3">
+          <div class="col-12">
+            <label class="form-label">Método</label>
+            <select id="chMetodo" class="form-select" required>
+              <option value="retiro">Retiro en tienda (gratis)</option>
+              <option value="envio">Envío a domicilio</option>
+            </select>
+            <div class="form-text checkout-note">Si eliges envío, agrega dirección/ciudad.</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Dirección</label>
+            <input id="chDireccion" class="form-control" placeholder="Calle 123, depto..." />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Comuna</label>
+            <input id="chComuna" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Región</label>
+            <input id="chRegion" class="form-control" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success" type="submit"><i class="bi bi-check2-circle"></i> Confirmar pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal fade" id="adminPanelModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-gear"></i> Panel de Administración</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-tools fs-5"></i><strong>Inventario</strong>
+                  </div>
+                  <p class="text-muted small">Crear/editar productos, precios y stock.</p>
+                  <a href="gestion.html" class="btn btn-outline-primary mt-auto"><i class="bi bi-box-seam"></i> Abrir Gestión</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-truck fs-5"></i><strong>Pedidos</strong>
+                  </div>
+                  <p class="text-muted small">Ver y actualizar estado, tracking y notas.</p>
+                  <a href="pedidos.html" class="btn btn-outline-primary mt-auto"><i class="bi bi-receipt"></i> Abrir Pedidos</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ES Modules en /pages/js -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
