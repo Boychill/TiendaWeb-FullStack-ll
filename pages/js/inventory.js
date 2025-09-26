@@ -4,14 +4,14 @@ export const CLP = n => n.toLocaleString("es-CL",{ style:"currency", currency:"C
 // ========= PRODUCTOS =========
 const PRODUCTS_BASE = [
   { id:1, name:"Auriculares Bluetooth", price:29990, stock:15, category:"Electrónica", img:"../multimedia/audifonosbluetooth.png" },
-  { id:2, name:"Smartwatch Deportivo", price:49990, stock:9,  category:"Electrónica", img:"https://picsum.photos/seed/watch/600/400" },
-  { id:3, name:"Zapatillas Running",   price:45990, stock:12, category:"Deportes",    img:"https://picsum.photos/seed/run/600/400" },
-  { id:4, name:"Polerón Hombre",        price:24990, stock:7,  category:"Ropa", subcategory:"Hombre", img:"https://picsum.photos/seed/hoodie-man/600/400" },
-  { id:5, name:"Polera Mujer",          price:19990, stock:10, category:"Ropa", subcategory:"Mujer",  img:"https://picsum.photos/seed/tshirt-woman/600/400" },
-  { id:6, name:"Gorro Unisex",          price:9990,  stock:20, category:"Ropa", subcategory:"Accesorios", img:"https://picsum.photos/seed/hat/600/400" },
-  { id:7, name:"Cartera",               price:34990, stock:5,  category:"Ropa", subcategory:"Accesorios", img:"httpsjpgicsum.photos/seed/bag/600/400" },
-  { id:8, name:"Cafetera Express",      price:89990, stock:4,  category:"Hogar", img:"https://picsum.photos/seed/coffee/600/400" },
-  { id:9, name:"Pelota Fútbol",         price:14990, stock:18, category:"Deportes", img:"https://picsum.photos/seed/ball/600/400" }
+  { id:2, name:"Smartwatch Deportivo", price:49990, stock:9,  category:"Electrónica", img:"../multimedia/reloj.inteligente.png" },
+  { id:3, name:"Zapatillas Running",   price:45990, stock:12, category:"Deportes",    img:"../multimedia/ZapatillaRunning.png" },
+  { id:4, name:"Polerón Hombre",        price:24990, stock:7,  category:"Ropa", subcategory:"Hombre", img:"../multimedia/poleron-hombre.png" },
+  { id:5, name:"Polera Mujer",          price:19990, stock:10, category:"Ropa", subcategory:"Mujer",  img:"../multimedia/polera-mujer.png" },
+  { id:6, name:"Gorro Unisex",          price:9990,  stock:20, category:"Ropa", subcategory:"Accesorios", img:"../multimedia/gorra.png" },
+  { id:7, name:"Cartera",               price:34990, stock:5,  category:"Ropa", subcategory:"Accesorios", img:"../multimedia/cartera.png" },
+  { id:8, name:"Cafetera Express",      price:89990, stock:4,  category:"Hogar", img:"../multimedia/cafetera.png" },
+  { id:9, name:"Pelota Fútbol",         price:14990, stock:18, category:"Deportes", img:"../multimedia/pelota.png" }
 ];
 export function getProducts(){
   const saved = JSON.parse(localStorage.getItem("products") || "null");
